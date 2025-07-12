@@ -1,5 +1,6 @@
 import './index.css';
 import { questions } from './data.js';
+import { useState } from 'react';
 
 export default function App() {
   return (
@@ -10,10 +11,21 @@ export default function App() {
 }
 
 function Flashcards() {
+  const [selectedId, setSelectedId] = useState(null);
+  function handleSelection(id) {
+    setSelectedId(id !== selectedId ? id : null);
+  }
   return (
     <div className='flashcards'>
-      {console.log(questions)}
-      <p>{questions[0].question}</p>
+      {questions.map((question) => (
+        <div
+          key={question.id}
+          className={question.id == selectedId ? 'selected' : ''}
+          onClick={() => handleSelection(question.id)}
+        >
+          {question.id == selectedId ? question.answer : question.question}
+        </div>
+      ))}
     </div>
   );
 }
